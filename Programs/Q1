@@ -1,1 +1,42 @@
+/*
+ * Write a program that creates 2 threads - each displaying a message (Pass the message as a parameter to the constructor). 
+ * The threads should display the messages continuously till the user presses any key.
+ */
+package ThursdayLab_13November;
 
+
+class MyThread extends Thread
+{
+   String str;
+    public MyThread(String s)
+    {
+        str=s;  
+    }
+    public void run()
+    {
+        while(true)
+        {   System.out.println((Thread.currentThread()).getName()+" "+"Message: "+str);
+            System.out.println((Thread.currentThread()).getName()+" "+"Priority:  "+(Thread.currentThread()).getPriority());
+             
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ie)
+            { 
+                System.out.println(ie.toString());
+            }           
+        }
+    }
+}
+ class ThreadSetA1
+{
+    public static void main(String args[])
+    {
+        MyThread t1= new MyThread("ON");
+        MyThread t2= new MyThread("OFF");       
+        System.out.println("Details of the Threads in running state....");
+        t1.start();
+        t2.start();
+    }
+}
