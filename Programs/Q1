@@ -29,7 +29,7 @@ class MyThread extends Thread
         }
     }
 }
- class ThreadSetA1
+ class ThreadSet
 {
     public static void main(String args[])
     {
