@@ -1,1 +1,98 @@
 
+/*
+ *  Write a Java program using Synchronized Threads, which demonstrates Producer Consumer concept.
+ *  Producer Consumer problem: The producer-consumer problem is the classical concurrency of a multiple process synchronization problem. 
+ *  It is also known as bound-buffer problem. The problem describes two processes, the producer and the consumer, who share a common, 
+ *  fixed-size buffer used as a queue. The producer generates a piece of data, put it into the buffer and starts again.
+ */
+package ThursdayLab_13November;
+
+import java.util.LinkedList;
+
+public class Producer_Consumer_Prog 
+{
+	public static void main(String[] args)
+		throws InterruptedException
+	{
+		final PC pc = new PC();// Object of a class that has both produce() and consume() methods
+        Thread t1 = new Thread(new Runnable() // Create producer thread
+         {
+			public void run()
+			{
+				try 
+				{
+					pc.produce();
+				}
+				catch (InterruptedException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+
+		Thread t2 = new Thread(new Runnable() // Create consumer thread
+
+		{
+			public void run()
+			{
+				try 
+				{
+					pc.consume();
+				}
+				catch (InterruptedException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+
+		t1.start();// Start both threads
+		t2.start();
+
+		t1.join(); // t1 finishes before t2
+		t2.join();
+	}
+	public static class PC 
+	{
+		LinkedList<Integer> list = new LinkedList<>();// Create a list shared by producer and consumer
+		int capacity = 2;// Size of list is 2.
+		public void produce() throws InterruptedException 	// Function called by producer thread
+
+		{
+		   int value = 0;
+			while (true) 
+			{
+			   synchronized (this)
+				{
+					while (list.size() == capacity)// producer thread waits while list is full
+                    wait();
+					
+                    System.out.println("Producer produce-"+ value);
+					list.add(value++);// to insert the jobs in the list
+					
+					notify();// notifies the consumer thread that now it can start consuming
+					Thread.sleep(1000);// makes the working of program easier to understand
+
+				}
+			}
+		}
+
+		public void consume() throws InterruptedException 	// Function called by consumer thread
+		{
+			while (true) 
+			{
+				synchronized (this)
+				{
+					while (list.size() == 0) // consumer thread waits while list is empty
+                    wait();
+
+					int val = list.removeFirst(); // to retrieve the first job in the list
+					System.out.println("Consumer consumed-"+ val);			
+					notify();
+					Thread.sleep(1000);
+
+				}
+			}
+		}
+	}
+}
