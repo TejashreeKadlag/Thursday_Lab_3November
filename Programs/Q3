@@ -1,1 +1,91 @@
+/*
+ * Write a JAVA program which will generate the threads: - To display 10 terms of Fibonacci series. - To display 1 to 10 in reverse order.
+ */
+
+package ThursdayLab_13November;
+import java.io.*;
+
+class Fibonacci_Series extends Thread
+{
+     public void run()
+     {
+          try
+          {
+               int a=0, b=1, c=0;
+               BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+               System.out.print("Enter the Limit for fabonacci: ");
+
+               int n = Integer.parseInt(br.readLine());
+               System.out.println("\n=================================");
+
+               System.out.println("Fibonacci series:");
+
+               while (n>0)
+               {
+                    System.out.print(c+" ");
+                    a=b;
+                    b=c;
+                    c=a+b;
+                    n=n-1;
+               }
+          }
+          catch (Exception ex)
+          {
+               ex.printStackTrace();
+          }
+     }
+}
+
+
+package ThursdayLab_13November;
+
+class Reverse_No extends Thread
+{
+     public void run()
+     {
+          try
+          {
+               System.out.println("\n=============================");
+               System.out.println("\nReverse is: ");
+              System.out.println("\n=============================");
+               for (int i=10; i >= 1 ;i-- )
+               {
+                    System.out.print(i+"  ");
+               }
+               System.out.println("\n=======================\n\n");
+          }
+          catch (Exception ex)
+          {
+               ex.printStackTrace();
+          }
+     }
+}
+
+
+
+package ThursdayLab_13November;
+
+public class MainThread
+{
+
+     public static void main(String[] args)
+     {
+          try
+          {
+        	  Fibonacci_Series fib = new Fibonacci_Series();
+               fib.start();
+               fib.sleep(4000);
+               Reverse_No rev = new Reverse_No();
+               rev.start();
+               rev.sleep(4000);
+
+          }
+          catch (Exception ex)
+          {
+               ex.printStackTrace();
+          }
+          }
+          }
+
 
